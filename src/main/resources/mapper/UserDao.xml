@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xlccc.dao.UserDao">
+    <!-- Sans 2019/6/9 14:35 -->
+    <select id="selectPermissionByUserId" resultType="com.xlccc.entity.Permission" parameterType="integer">
+        SELECT p.name,p.id
+        FROM permission p
+            INNER JOIN permission_role pr ON p.id=pr.permission_id
+            INNER JOIN user_role ur ON ur.role_id=pr.role_id
+        WHERE ur.user_id = #{id}
+    </select>
+
+    <select id="findRoleByUserId" resultType="com.xlccc.entity.Role" parameterType="integer">
+        SELECT
+            role.`name`,
+            role.id
+        FROM
+            user_role
+            LEFT JOIN role ON user_role.role_id = role.id
+        WHERE
+            user_role.user_id = #{id}
+    </select>
+</mapper>
